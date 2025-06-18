@@ -1,15 +1,26 @@
+import CheckBox from "expo-checkbox";
 import { useKeepAwake } from "expo-keep-awake";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from "expo-sensors";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Button,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { db } from "../firebaseConfig";
 
 let time = 0;
 let allData = [];
 let unsub = null;
 let paused = true;
+
+let skipReminderThisSession = false;
 
 export default function RecordScreen() {
   const { subject, treatment, activity } = useLocalSearchParams();
@@ -20,9 +31,10 @@ export default function RecordScreen() {
   const [isRecording, setIsRecording] = useState(false);
   const [hasData, setHasData] = useState(false);
   const [reportSent, setReportSent] = useState(false);
+  const [showReminder, setShowReminder] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
   const interval = 10;
 
-  // Clear/reset all data and state on screen load
   useEffect(() => {
     time = 0;
     allData = [];
@@ -36,6 +48,8 @@ export default function RecordScreen() {
       unsub.remove();
       unsub = null;
     }
+
+    skipReminderThisSession = false;
   }, []);
 
   function start() {
@@ -62,6 +76,7 @@ export default function RecordScreen() {
   }
 
   function clear() {
+    stop();
     time = 0;
     allData = [];
     setData({ x: 0, y: 0, z: 0 });
@@ -95,6 +110,14 @@ export default function RecordScreen() {
     }
   }
 
+  function handleStartPress() {
+    if (skipReminderThisSession) {
+      start();
+    } else {
+      setShowReminder(true);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Recording Screen</Text>
@@ -110,7 +133,7 @@ export default function RecordScreen() {
       <View style={styles.btnRow}>
         <Button
           title="Start Recording"
-          onPress={start}
+          onPress={handleStartPress}
           color={isRecording ? "#ccc" : "blue"}
           disabled={isRecording}
         />
@@ -147,6 +170,46 @@ export default function RecordScreen() {
           />
         </View>
       )}
+
+      {/* Reminder Modal */}
+      <Modal
+        visible={showReminder}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowReminder(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>
+              📱 Please hold your phone in your right hand before starting the
+              activity and make sure to record for at least 8 seconds.
+            </Text>
+
+            <View style={styles.checkboxContainer}>
+              <CheckBox
+                value={dontShowAgain}
+                onValueChange={setDontShowAgain}
+              />
+              <Text style={styles.checkboxLabel}>Don't show this again</Text>
+            </View>
+
+            <Pressable
+              style={styles.modalButton}
+              onPress={() => {
+                if (dontShowAgain) {
+                  skipReminderThisSession = true;
+                }
+                setShowReminder(false);
+                start();
+              }}
+            >
+              <Text style={styles.modalButtonText}>
+                Got it! Start Recording
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -171,5 +234,44 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    width: "85%",
+    alignItems: "center",
+  },
+  modalText: {
+    fontWeight: "bold",
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  modalButton: {
+    marginTop: 10,
+    backgroundColor: "blue",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: "white",
+    fontSize: 16,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  checkboxLabel: {
+    marginLeft: 8,
+    fontSize: 14,
   },
 });
