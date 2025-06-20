@@ -48,8 +48,6 @@ export default function RecordScreen() {
       unsub.remove();
       unsub = null;
     }
-
-    skipReminderThisSession = false;
   }, []);
 
   function start() {
