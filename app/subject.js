@@ -1,5 +1,6 @@
+import CheckBox from "expo-checkbox";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,16 +8,34 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import eventBus from "../eventbus";
 
 export default function SubjectScreen() {
   const [subject, setSubject] = useState("");
   const [treatment, setTreatment] = useState("");
-  const [activity, setActivity] = useState("");
+  const [reportedActivities, setReportedActivities] = useState({});
   const router = useRouter();
 
-  const canContinue = subject && treatment && activity;
+  const activities = [
+    { label: "Walk", value: "walk" },
+    { label: "Sit", value: "sit" },
+    { label: "Upstairs", value: "upstair" },
+    { label: "Downstairs", value: "downstair" },
+  ];
 
-  const goToRecording = () => {
+  useEffect(() => {
+    const listener = (reportedActivity) => {
+      setReportedActivities((prev) => ({
+        ...prev,
+        [reportedActivity]: true,
+      }));
+    };
+
+    eventBus.on("activityReported", listener);
+    return () => eventBus.off("activityReported", listener);
+  }, []);
+
+  const goToRecording = (activity) => {
     router.push({
       pathname: "/record",
       params: {
@@ -58,20 +77,28 @@ export default function SubjectScreen() {
       </View>
 
       <Text style={styles.label}>Select Activity:</Text>
-      <View style={styles.row}>
-        {renderOption("Walk", "walk", activity, setActivity)}
-        {renderOption("Sit", "sit", activity, setActivity)}
-        {renderOption("Upstairs", "upstair", activity, setActivity)}
-        {renderOption("Downstairs", "downstair", activity, setActivity)}
-      </View>
-
-      <TouchableOpacity
-        onPress={goToRecording}
-        disabled={!canContinue}
-        style={[styles.continueButton, !canContinue && styles.disabledButton]}
-      >
-        <Text style={styles.continueText}>Continue to Recording</Text>
-      </TouchableOpacity>
+      {activities.map((activity) => (
+        <View key={activity.value} style={styles.activityRow}>
+          <View style={styles.checkboxContainer}>
+            <CheckBox value={!!reportedActivities[activity.value]} />
+            <Text style={styles.activityLabel}>{activity.label}</Text>
+          </View>
+          <TouchableOpacity
+            style={[
+              styles.recordButton,
+              !(subject && treatment) && styles.disabledButton,
+            ]}
+            onPress={() => goToRecording(activity.value)}
+            disabled={!(subject && treatment)}
+          >
+            <Text style={styles.buttonText}>
+              {reportedActivities[activity.value]
+                ? "Record Again"
+                : "Record Activity"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ))}
     </View>
   );
 }
@@ -102,7 +129,6 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    flexWrap: "wrap",
     gap: 10,
     marginVertical: 10,
     justifyContent: "space-between",
@@ -118,17 +144,37 @@ const styles = StyleSheet.create({
     color: "blue",
     fontWeight: "bold",
   },
-  continueButton: {
-    marginTop: 20,
-    padding: 15,
-    backgroundColor: "blue",
-    borderRadius: 5,
+  activityRow: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 8,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: "#999",
+    marginRight: 10,
+  },
+  activityLabel: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  recordButton: {
+    backgroundColor: "blue",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 5,
   },
   disabledButton: {
     backgroundColor: "gray",
   },
-  continueText: {
+  buttonText: {
     color: "white",
     fontWeight: "bold",
   },

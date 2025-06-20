@@ -13,6 +13,7 @@ import {
   Text,
   View,
 } from "react-native";
+import eventBus from "../eventbus";
 import { db } from "../firebaseConfig";
 
 let time = 0;
@@ -102,6 +103,7 @@ export default function RecordScreen() {
 
       Alert.alert("Success", "Data reported to Firebase.");
       setReportSent(true);
+      eventBus.emit("activityReported", activity);
     } catch (err) {
       console.error(err);
       Alert.alert("Error", "Failed to report data.");
@@ -230,7 +232,7 @@ const styles = StyleSheet.create({
   },
   btnRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     marginVertical: 10,
   },
   modalContainer: {
