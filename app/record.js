@@ -20,6 +20,7 @@ let time = 0;
 let allData = [];
 let unsub = null;
 let paused = true;
+let autoStopTimer = null;
 
 let skipReminderThisSession = false;
 
@@ -34,6 +35,7 @@ export default function RecordScreen() {
   const [reportSent, setReportSent] = useState(false);
   const [showReminder, setShowReminder] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
+  const [recordingDone, setRecordingDone] = useState(false); 
   const interval = 10;
 
   useEffect(() => {
@@ -64,23 +66,27 @@ export default function RecordScreen() {
       if (allData.length === 1) setHasData(true);
     });
     
-    // Auto-stop after 10 seconds
-    const MAX_RECORDING_TIME_MS = 10000;
-    setTimeout(() => {
+    autoStopTimer = setTimeout(() => {
       if (!paused) {
         stop();
         Alert.alert("Time Limit", "Recording automatically stopped after 10 seconds.");
       }
-    }, MAX_RECORDING_TIME_MS);
+    }, 10000);
   }
 
   function stop() {
+    if (autoStopTimer) {
+      clearTimeout(autoStopTimer);
+      autoStopTimer = null;
+    }
+    
     if (unsub) {
       unsub.remove();
       unsub = null;
     }
     paused = true;
     setIsRecording(false);
+    setRecordingDone(true);
   }
 
   function clear() {
@@ -90,6 +96,7 @@ export default function RecordScreen() {
     setData({ x: 0, y: 0, z: 0 });
     setHasData(false);
     setReportSent(false);
+    setRecordingDone(false);
   }
 
   async function reportData() {
@@ -97,6 +104,15 @@ export default function RecordScreen() {
       Alert.alert("Error", "No data to report.");
       return;
     }
+
+    const durationInSeconds = time / 1000;
+    if (durationInSeconds < 7) {
+    Alert.alert(
+      "Too Short",
+      "Recording must be at least 7 seconds long to report."
+    );
+    return;
+  }
 
     const now = new Date();
     const docName = now.toString();
@@ -144,7 +160,7 @@ export default function RecordScreen() {
           title="Start Recording"
           onPress={handleStartPress}
           color={isRecording ? "#ccc" : "blue"}
-          disabled={isRecording}
+          disabled={isRecording || recordingDone}
         />
         <Button
           title="Stop Recording"
@@ -190,8 +206,8 @@ export default function RecordScreen() {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              📱 Please hold your phone in your right hand before starting the
-              activity and make sure to record for at least 8 seconds.
+              📱 Please hold your phone in your right hand during the
+              activity. Record for at least 7 seconds. The timer will automatically stop at 10 seconds.
             </Text>
 
             <View style={styles.checkboxContainer}>
