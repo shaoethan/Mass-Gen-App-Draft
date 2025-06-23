@@ -63,6 +63,15 @@ export default function RecordScreen() {
       time += interval;
       if (allData.length === 1) setHasData(true);
     });
+    
+    // Auto-stop after 10 seconds
+    const MAX_RECORDING_TIME_MS = 10000;
+    setTimeout(() => {
+      if (!paused) {
+        stop();
+        Alert.alert("Time Limit", "Recording automatically stopped after 10 seconds.");
+      }
+    }, MAX_RECORDING_TIME_MS);
   }
 
   function stop() {
