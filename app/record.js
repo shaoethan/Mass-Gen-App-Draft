@@ -128,7 +128,7 @@ export default function RecordScreen() {
       <Text style={styles.acc}>
         x: {x.toFixed(2)} | y: {y.toFixed(2)} | z: {z.toFixed(2)}
       </Text>
-      <Text>Recording time: {time}ms</Text>
+      <Text>Recording time: {(time / 1000).toFixed(1)}s</Text>
 
       <View style={styles.btnRow}>
         <Button
@@ -161,7 +161,7 @@ export default function RecordScreen() {
         />
       )}
 
-      {reportSent && (
+      {/*{reportSent && (
         <View style={styles.btnRow}>
           <Button
             title="Continue to Graph"
@@ -169,7 +169,7 @@ export default function RecordScreen() {
             color="blue"
           />
         </View>
-      )}
+      )}*/}
 
       {/* Reminder Modal */}
       <Modal

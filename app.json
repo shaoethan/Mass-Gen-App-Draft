@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MGHapp",
-    "slug": "MGHapp",
+    "name": "ActiPain",
+    "slug": "ActiPain",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -50,9 +50,7 @@
       }
     },
     "owner": "ninjaprime",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/fa8ae35f-7205-4355-8699-5ed4dc46c15e"
     }

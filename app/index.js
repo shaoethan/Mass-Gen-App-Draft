@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Accelerometer Data Collection</Text>
+        <Text style={styles.title}>ActiPain Accelerometer Data Collection</Text>
         <Text style={styles.subtitle}>
           Follow the steps to record and report accelerometer data.
         </Text>

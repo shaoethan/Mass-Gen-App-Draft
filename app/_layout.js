@@ -4,7 +4,8 @@ export default function Layout() {
   return (
     <Stack
       screenOptions={{
-        headerTitle: "Accelerometer App",
+        headerTitle: "ActiPain",
+        headerBackTitle: "Back", 
       }}
     />
   );
