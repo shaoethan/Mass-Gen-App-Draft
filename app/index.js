@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
 export default function Home() {
   const router = useRouter();
@@ -7,12 +7,25 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>ActiPain Accelerometer Data Collection</Text>
+        <Image
+          source={require("../assets/images/logo.jpg")}
+          style={styles.logo}
+        />
+        <Text style={styles.title}>ActiPain Tracker Accelerometer Data Collection</Text>
         <Text style={styles.subtitle}>
-          Follow the steps to record and report accelerometer data.
+          This app helps patients record movement data before and after treatment using their phone's sensors.
         </Text>
         <View style={styles.buttonContainer}>
-          <Button title="Get Started" onPress={() => router.push("/subject")} />
+          <TouchableOpacity style={styles.getStartedButton} onPress={() => router.push("/subject")}>
+            <Text style={styles.getStartedButtonText}>Get Started</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.instructionsLink}
+            onPress={() => router.push("/instructions")}
+          >
+            <Text style={styles.instructionsText}>View Instructions</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -26,9 +39,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    padding: 24,
+    paddingTop: 100,
+    paddingHorizontal: 24, 
   },
   title: {
     fontSize: 26,
@@ -43,8 +57,47 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30,
     lineHeight: 22,
+    maxWidth: 350,
+    alignSelf: "center",
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
+    marginBottom: 30,
+    marginTop: 20, 
+    resizeMode: "contain",
+    borderRadius: 20,
+    overflow: "hidden",
   },
   buttonContainer: {
     width: "60%",
+  },
+  getStartedButton: {
+    backgroundColor: "#4f46e5",
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  getStartedButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  instructionsLink: {
+    marginTop: 16,
+    alignItems: "center",
+  }, 
+  instructionsText: {
+    color: "#4f46e5",
+    fontSize: 16,
+    textDecorationLine: "underline",
   },
 });
