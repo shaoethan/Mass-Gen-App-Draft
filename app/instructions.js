@@ -1,0 +1,67 @@
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import LottieView from 'lottie-react-native';
+
+export default function Instructions() {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.heading}>How to Use ActiPain</Text>
+
+        <Text style={styles.instruction}>
+            <Text style={styles.boldNumber}>1. </Text>
+            Press “Get Started” to begin data collection.
+        </Text>
+        <Text style={styles.instruction}>
+            <Text style={styles.boldNumber}>2. </Text>
+            Fill in the subject information: First and Last name, Before or After treatment, and select your activity.
+        </Text>
+        <Text style={styles.instruction}>
+            <Text style={styles.boldNumber}>3. </Text>
+            Hold your phone in your right hand, then tap “Start Recording”.
+        </Text>
+        <Text style={styles.instruction}>
+            <Text style={styles.boldNumber}>4. </Text>
+            Perform the selected activity for at least 7 seconds. The timer will automatically stop at 10 seconds.
+        </Text> 
+        <Text style={styles.instruction}>
+            <Text style={styles.boldNumber}>5. </Text>
+            After completing the recording, tap "Report to Firebase" to securely store your data.
+        </Text>
+      </View>
+      <LottieView
+        source={require("../assets/animations/walking.json")}
+        autoPlay
+        loop
+        style={{ width: 250, height: 250, alignSelf: "center", marginTop: 8 }}
+    />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  content: {
+    marginTop: 60,
+    maxWidth: 360,
+    alignSelf: "center",
+  },
+  heading: {
+    fontSize: 22,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 30,
+  },
+  instruction: {
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 12,
+    textAlign: "left",
+  },
+  boldNumber: {
+    fontWeight: "bold",
+  },
+
+});

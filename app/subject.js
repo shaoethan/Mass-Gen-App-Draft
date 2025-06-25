@@ -47,11 +47,17 @@ export default function SubjectScreen() {
   };
 
   const renderOption = (label, value, selectedValue, setValue) => (
-    <TouchableOpacity onPress={() => setValue(value)} style={styles.option}>
+    <TouchableOpacity 
+      onPress={() => setValue(value)}
+      style={[
+        styles.treatmentButton,
+        selectedValue === value && styles.selectedTreatmentButton,
+      ]}
+    >
       <Text
         style={[
-          styles.optionText,
-          selectedValue === value && styles.selectedText,
+          styles.treatmentButtonText,
+          selectedValue === value && styles.selectedTreatmentButtonText,
         ]}
       >
         {label}
@@ -63,8 +69,10 @@ export default function SubjectScreen() {
     <View style={styles.container}>
       <Text style={styles.heading}>Subject Information</Text>
 
+      <Text style={styles.label}>Subject Name:</Text>
       <TextInput
-        placeholder="Enter subject name"
+        placeholder="Enter name (e.g. Jane Doe)"
+        placeholderTextColor="#555"
         style={styles.input}
         value={subject}
         onChangeText={setSubject}
@@ -113,10 +121,11 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
   },
   label: {
     marginTop: 20,
+    marginBottom: 10, 
     fontSize: 16,
     fontWeight: "500",
   },
@@ -124,14 +133,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginTop: 8,
+    marginBottom: 30,
     borderRadius: 5,
     borderColor: "#ccc",
+    color: "#000", 
+    marginTop: 0, 
   },
   row: {
     flexDirection: "row",
-    gap: 10,
-    marginVertical: 10,
-    justifyContent: "space-between",
+    gap: 100,
+    marginTop: 10,
+    justifyContent: "center",
+    marginBottom: 10,
   },
   option: {
     padding: 10,
@@ -148,7 +161,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginVertical: 8,
+    marginVertical: 12,
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -178,4 +191,26 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
+  treatmentButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    backgroundColor: "#f2f2f2",
+  },
+  selectedTreatmentButton: {
+    backgroundColor: "#4f46e5",
+    borderColor: "#4f46e5",
+  }, 
+  treatmentButtonText: {
+    color: "#555",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  selectedTreatmentButtonText: {
+    color: "#fff",
+    fontWeight: "700",
+  },
+
 });
