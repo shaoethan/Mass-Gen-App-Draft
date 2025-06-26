@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "ActiPain",
-    "slug": "ActiPain",
+    "name": "ActiPain Tracker",
+    "slug": "actipain-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/redlogo.jpg",
     "scheme": "mghapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
