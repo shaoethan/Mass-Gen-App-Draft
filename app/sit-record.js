@@ -12,6 +12,7 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from "react-native";
 import eventBus from "../eventbus";
 import { db } from "../firebaseConfig";
@@ -145,46 +146,94 @@ export default function RecordScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Recording Screen</Text>
-      <Text>Subject: {subject}</Text>
-      <Text>Treatment: {treatment}</Text>
-      <Text>Activity: {activity}</Text>
+      <Text style={styles.header}>Sit Recording Screen</Text>
 
-      <Text style={styles.acc}>
-        x: {x.toFixed(2)} | y: {y.toFixed(2)} | z: {z.toFixed(2)}
-      </Text>
-      <Text>Recording time: {(time / 1000).toFixed(1)}s</Text>
-
-      <View style={styles.btnRow}>
-        <Button
-          title="Start Recording"
-          onPress={handleStartPress}
-          color={isRecording ? "#ccc" : "blue"}
-          disabled={isRecording || recordingDone}
-        />
-        <Button
-          title="Stop Recording"
-          onPress={stop}
-          color={isRecording ? "red" : "#ccc"}
-          disabled={!isRecording}
-        />
+      <View style={styles.instructionsBox}>
+        <Text style={styles.instructionsTitle}>Instructions</Text>
+        <Text style={styles.instructionsText}>
+            • Sit upright in a chair with both feet flat on the ground for at least 20 seconds.{"\n"}
+            • Use a band to attach the phone securely to your chosen location.{"\n"}
+            • Remain as still as possible during the recording period.
+        </Text>
       </View>
 
-      <Button
-        title="Clear Data"
-        onPress={clear}
-        color={hasData ? "blue" : "#ccc"}
-        disabled={!hasData}
-      />
+      <View style={styles.vitalsBox}>
+        <Text style={styles.vitalsText}>
+          <Text style={styles.label}>Subject: </Text>{subject}
+        </Text>
+        <Text style={styles.vitalsText}>
+          <Text style={styles.label}>Treatment: </Text>{treatment}
+        </Text>
+        <Text style={styles.vitalsText}>
+           <Text style={styles.label}>Activity: </Text>{activity}
+        </Text>
+        <Text style={styles.vitalsText}>
+          <Text style={styles.label}>x:</Text> {x.toFixed(2)}{"   "}
+          <Text style={styles.label}>y:</Text> {y.toFixed(2)}{"   "}
+          <Text style={styles.label}>z:</Text> {z.toFixed(2)}
+        </Text>
+        <Text style={styles.vitalsText}>
+          <Text style={styles.label}>Recording time: </Text>{(time / 1000).toFixed(1)}s
+        </Text>
+      </View>
 
-      {hasData && (
-        <Button
-          title="Report to Firebase"
+
+      <View style={styles.btnRow}>
+        <TouchableOpacity
+          onPress={handleStartPress}
+          disabled={isRecording || recordingDone}
+          style={[
+            styles.customButton,
+            styles.primaryButton,
+            (isRecording || recordingDone) && styles.disabledButton,
+        ]}
+      >
+          <Text style={styles.buttonText}>Start Recording</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={stop}
+          disabled={!isRecording}
+          style={[
+            styles.customButton,
+            styles.dangerButton,
+            !isRecording && styles.disabledButton,
+        ]}
+      >
+        <Text style={styles.buttonText}>Stop Recording</Text>
+      </TouchableOpacity>
+    </View>
+
+    <View style={{ marginVertical: 10 }}>
+      <TouchableOpacity
+        onPress={clear}
+        disabled={!hasData}
+        style={[
+          styles.customButton,
+          styles.primaryButton,
+          !hasData && styles.disabledButton,
+        ]}
+      >
+        <Text style={styles.buttonText}>Clear Data</Text>
+      </TouchableOpacity>
+    </View>
+
+    {hasData && (
+      <View style={{ marginVertical: 10 }}>
+        <TouchableOpacity
           onPress={reportData}
-          color={reportSent ? "#ccc" : "orange"}
           disabled={reportSent || isRecording}
-        />
-      )}
+          style={[
+            styles.customButton,
+            styles.orangeButton,
+            (reportSent || isRecording) && styles.disabledButton,
+        ]}
+      >
+        <Text style={styles.buttonText}>Report to Firebase</Text>
+      </TouchableOpacity>
+  </View>
+)}
+
 
       {/*{reportSent && (
         <View style={styles.btnRow}>
@@ -241,15 +290,54 @@ export default function RecordScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 60,
-    paddingHorizontal: 20,
     flex: 1,
     backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    justifyContent: "flex-start",
+    paddingTop: 40,
   },
   header: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    textAlign: "center",
+    MarginBottom: 16,
+    color: "#1e1e1e",
+    marginBottom: 24,
+  },
+  instructionsBox: {
+    backgroundColor: "#f0f4ff",
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 24,
+    marginTop: 12,
+  },
+  instructionsTitle: {
+    fontWeight: "600",
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  instructionsText: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: "#333",
+  },
+  vitalsBox: {
+    backgroundColor: "#f9f9f9",
+    padding: 14,
+    borderRadius: 8,
+    marginTop: 12,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
+  vitalsText: {
+    fontSize: 15,
+    marginBottom: 4,
+    color: "#333",
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#1e1e1e",
   },
   acc: {
     fontSize: 16,
@@ -258,7 +346,8 @@ const styles = StyleSheet.create({
   btnRow: {
     flexDirection: "row",
     justifyContent: "center",
-    marginVertical: 10,
+    gap: 16,
+    marginVertical: 16,
   },
   modalContainer: {
     flex: 1,
@@ -298,5 +387,33 @@ const styles = StyleSheet.create({
   checkboxLabel: {
     marginLeft: 8,
     fontSize: 14,
+  },
+  customButton: {
+  paddingVertical: 12,
+  paddingHorizontal: 24,
+  borderRadius: 8,
+  marginVertical: 8,
+  alignItems: "center",
+  justifyContent: "center",
+  },
+  primaryButton: {
+    backgroundColor: "#2563eb", 
+  },
+  dangerButton: {
+    backgroundColor: "#ef4444", 
+  },
+  grayButton: {
+    backgroundColor: "#d1d5db", 
+  },
+  orangeButton: {
+    backgroundColor: "#f59e0b", 
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 16,
+  },
+  disabledButton: {
+    opacity: 0.6,
   },
 });

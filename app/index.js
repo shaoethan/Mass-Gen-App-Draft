@@ -8,10 +8,10 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Image
-          source={require("../assets/images/logo.jpg")}
+          source={require("../assets/images/redlogo.jpg")}
           style={styles.logo}
         />
-        <Text style={styles.title}>ActiPain Tracker Accelerometer Data Collection</Text>
+        <Text style={styles.title}>ActiPain Tracker</Text>
         <Text style={styles.subtitle}>
           This app helps patients record movement data before and after treatment using their phone's sensors.
         </Text>

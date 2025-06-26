@@ -5,7 +5,7 @@ export default function Instructions() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.heading}>How to Use ActiPain</Text>
+        <Text style={styles.heading}>How to Use ActiPain Tracker</Text>
 
         <Text style={styles.instruction}>
             <Text style={styles.boldNumber}>1. </Text>

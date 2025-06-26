@@ -36,15 +36,22 @@ export default function SubjectScreen() {
   }, []);
 
   const goToRecording = (activity) => {
-    router.push({
-      pathname: "/record",
-      params: {
-        subject,
-        treatment,
-        activity,
-      },
-    });
+    const activityRoutes = {
+      walk: "/walk-record",
+      sit: "/sit-record",
+      upstair: "/upstairs-record",
+      downstair: "/downstairs-record",
   };
+
+  router.push({
+    pathname:activityRoutes[activity],
+    params: {
+      subject,
+      treatment,
+      activity, 
+    },
+  });
+};
 
   const renderOption = (label, value, selectedValue, setValue) => (
     <TouchableOpacity 
@@ -71,7 +78,7 @@ export default function SubjectScreen() {
 
       <Text style={styles.label}>Subject Name:</Text>
       <TextInput
-        placeholder="Enter name (e.g. Jane Doe)"
+        placeholder="Enter 5 number ID (e.g. 12345)"
         placeholderTextColor="#555"
         style={styles.input}
         value={subject}
@@ -80,8 +87,8 @@ export default function SubjectScreen() {
 
       <Text style={styles.label}>Select Treatment:</Text>
       <View style={styles.row}>
-        {renderOption("Before", "beforeTreatment", treatment, setTreatment)}
-        {renderOption("After", "afterTreatment", treatment, setTreatment)}
+        {renderOption("Before", "Before Treatment", treatment, setTreatment)}
+        {renderOption("After", "After Treatment", treatment, setTreatment)}
       </View>
 
       <Text style={styles.label}>Select Activity:</Text>
