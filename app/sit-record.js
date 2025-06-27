@@ -240,7 +240,7 @@ export default function RecordScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={stop}
+          onPress={() => stop(false)}
           disabled={!isRecording}
           style={[
             styles.customButton,
