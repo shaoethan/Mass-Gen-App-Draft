@@ -22,8 +22,7 @@ export default function Instructions() {
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>4. </Text>
-          Perform the selected activity for at least 7 seconds. The timer will
-          automatically stop at 10 seconds.
+          Perform the selected activity for at least 20 seconds. The timer will automatically stop at 30 seconds in which you will hear a “ding!” sound.
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>5. </Text>
