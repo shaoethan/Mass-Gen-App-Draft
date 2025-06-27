@@ -14,7 +14,7 @@ export default function Instructions() {
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>2. </Text>
           Fill in the subject information: First and Last name, Before or After
-          treatment, and select your activity.
+          treatment, Left Ankle or Right Wrist phone location, and select your activity.
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>3. </Text>

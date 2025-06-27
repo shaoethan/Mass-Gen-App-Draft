@@ -26,7 +26,7 @@ let autoStopTimer = null;
 let skipReminderThisSession = false;
 
 export default function RecordScreen() {
-  const { subject, treatment, activity } = useLocalSearchParams();
+  const { subject, treatment, activity, phoneLocation } = useLocalSearchParams();
   const router = useRouter();
 
   useKeepAwake();
@@ -146,8 +146,8 @@ if (autoStopped) {
     const docName = now.toString();
 
     try {
-      const path = `${treatment}/${subject}/${activity}/${docName}`;
-      const targetDoc = doc(db, path);
+      const path = `${treatment}/${subject}/${activity}/${phoneLocation}/${docName}`;
+      const targetDoc = doc(db, treatment, subject, activity, phoneLocation, "recordings", docName);
       await setDoc(targetDoc, {
         activity,
         acceleration: allData,
@@ -178,9 +178,9 @@ if (autoStopped) {
       <View style={styles.instructionsBox}>
         <Text style={styles.instructionsTitle}>Instructions</Text>
         <Text style={styles.instructionsText}>
-          • Walk in a straight line at a normal pace for at least 20 seconds.
-          {"\n"}• Use a band to attach the phone securely to your chosen
-          location.{"\n"}• Keep the phone stable while walking.
+          • Use a band to attach the phone securely to your chosen
+          location.
+          {"\n"}• Walk in a straight line at a normal & consistent pace for at least 20 seconds.
         </Text>
       </View>
 

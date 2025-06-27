@@ -26,7 +26,7 @@ let autoStopTimer = null;
 let skipReminderThisSession = false;
 
 export default function RecordScreen() {
-  const { subject, treatment, activity } = useLocalSearchParams();
+  const { subject, treatment, activity, phoneLocation } = useLocalSearchParams();
   const router = useRouter();
 
   useKeepAwake();
@@ -161,8 +161,8 @@ if (autoStopped) {
     const docName = now.toString();
 
     try {
-      const path = `${treatment}/${subject}/${activity}/${docName}`;
-      const targetDoc = doc(db, path);
+      const path = `${treatment}/${subject}/${activity}/${phoneLocation}`;
+      const targetDoc = doc(db, treatment, subject, activity, phoneLocation, "recordings", docName);
       await setDoc(targetDoc, {
         activity,
         acceleration: allData,

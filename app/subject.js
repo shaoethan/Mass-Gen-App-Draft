@@ -14,6 +14,7 @@ import eventBus from "../eventbus";
 export default function SubjectScreen() {
   const [subject, setSubject] = useState("");
   const [treatment, setTreatment] = useState("");
+  const [phoneLocation, setPhoneLocation] = useState("");
   const [reportedActivities, setReportedActivities] = useState({});
   const router = useRouter();
 
@@ -52,6 +53,7 @@ export default function SubjectScreen() {
         subject,
         treatment,
         activity,
+        phoneLocation,
       },
     });
   };
@@ -96,6 +98,12 @@ export default function SubjectScreen() {
         {renderOption("After", "After Treatment", treatment, setTreatment)}
       </View>
 
+      <Text style={styles.label}>Select Phone Location:</Text>
+      <View style={styles.row}>
+        {renderOption("Left Ankle", "Left Ankle", phoneLocation, setPhoneLocation)}
+        {renderOption("Right Wrist", "Right Wrist", phoneLocation, setPhoneLocation)}
+      </View>
+
       <Text style={styles.label}>Select Activity:</Text>
       {activities.map((activity) => (
         <View key={activity.value} style={styles.activityRow}>
@@ -106,10 +114,10 @@ export default function SubjectScreen() {
           <TouchableOpacity
             style={[
               styles.recordButton,
-              !(isSubjectValid && treatment) && styles.disabledButton,
+              !(isSubjectValid && treatment && phoneLocation) && styles.disabledButton,
             ]}
             onPress={() => goToRecording(activity.value)}
-            disabled={!(isSubjectValid && treatment)}
+            disabled={!(isSubjectValid && treatment && phoneLocation)}
           >
             <Text style={styles.buttonText}>
               {reportedActivities[activity.value]
