@@ -101,15 +101,15 @@ export default function RecordScreen() {
         unsub.remove();
         unsub = null;
       }
-      const durationInSeconds = time / 1000;
-  
-    if (!autoStopped && durationInSeconds < 20) {
-      Alert.alert("Too Short", "Minimum recording time is 20 seconds.");
-      return;
-    }
       paused = true;
-      setIsRecording(false);
-      setRecordingDone(true);
+setIsRecording(false);
+setRecordingDone(true);
+
+if (autoStopped) {
+  playStopSound();
+  Alert.alert("Time Limit", "Recording stopped automatically at 30 seconds.");
+}
+
   
       if (autoStopped) {
         playStopSound();
