@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from "expo-sensors";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Audio } from "expo-audio";
+import { Audio } from "expo-av";
 import {
   Alert,
   Modal,
@@ -55,20 +55,23 @@ export default function RecordScreen() {
   }, []);
 
   async function playStopSound() {
-    await Audio.setAudioModeAsync({
-      allowsRecordingIOS: false,
-      playsInSilentModeIOS: true,
-    });
-    
     try {
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        playsInSilentModeIOS: true,
+      });
+  
       const { sound } = await Audio.Sound.createAsync(
         require("../assets/bell-sound.mp3")
       );
+  
       await sound.playAsync();
     } catch (error) {
       console.error("Error playing stop sound:", error);
     }
   }
+  
+  
   
 
   function start() {
@@ -109,12 +112,6 @@ if (autoStopped) {
   playStopSound();
   Alert.alert("Time Limit", "Recording stopped automatically at 30 seconds.");
 }
-
-
-    if (autoStopped) {
-      playStopSound();
-      Alert.alert("Time Limit", "Recording stopped automatically at 30 seconds.");
-    }
   }
 
   function clear() {
