@@ -262,7 +262,7 @@ export default function RecordScreen() {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              📱 Please hold your phone in your right hand during the activity.
+              Please hold your phone in your right hand during the activity.
               Record for at least 7 seconds. The timer will automatically stop
               at 10 seconds.
             </Text>
@@ -367,11 +367,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: "85%",
+    width: "70%",
     alignItems: "center",
   },
   modalText: {
-    fontWeight: "bold",
     fontSize: 16,
     marginBottom: 20,
     textAlign: "center",

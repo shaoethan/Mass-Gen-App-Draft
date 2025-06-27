@@ -367,11 +367,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: "85%",
+    width: "70%",
     alignItems: "center",
   },
   modalText: {
-    fontWeight: "bold",
     fontSize: 16,
     marginBottom: 20,
     textAlign: "center",
