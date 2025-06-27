@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ScrollView,
 } from "react-native";
 import eventBus from "../eventbus";
 
@@ -75,7 +76,7 @@ export default function SubjectScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.heading}>Subject Information</Text>
 
       <Text style={styles.label}>Subject ID:</Text>
@@ -118,7 +119,7 @@ export default function SubjectScreen() {
           </TouchableOpacity>
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 
