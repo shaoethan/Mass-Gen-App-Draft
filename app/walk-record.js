@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from "expo-sensors";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { Audio } from "expo-av";
 import {
   Alert,
   Modal,
@@ -53,6 +54,23 @@ export default function RecordScreen() {
     }
   }, []);
 
+  async function playStopSound() {
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+      playsInSilentModeIOS: true,
+    });
+    
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/bell-sound.mp3")
+      );
+      await sound.playAsync();
+    } catch (error) {
+      console.error("Error playing stop sound:", error);
+    }
+  }
+  
+
   function start() {
     if (!paused) return;
     paused = false;
@@ -68,16 +86,12 @@ export default function RecordScreen() {
 
     autoStopTimer = setTimeout(() => {
       if (!paused) {
-        stop();
-        Alert.alert(
-          "Time Limit",
-          "Recording automatically stopped after 10 seconds."
-        );
+        stop(true);
       }
-    }, 10000);
+    }, 30000);
   }
 
-  function stop() {
+  function stop(autoStopped=false) {
     if (autoStopTimer) {
       clearTimeout(autoStopTimer);
       autoStopTimer = null;
@@ -87,9 +101,20 @@ export default function RecordScreen() {
       unsub.remove();
       unsub = null;
     }
+    const durationInSeconds = time / 1000;
+
+  if (!autoStopped && durationInSeconds < 20) {
+    Alert.alert("Too Short", "Minimum recording time is 20 seconds.");
+    return;
+  }
     paused = true;
     setIsRecording(false);
     setRecordingDone(true);
+
+    if (autoStopped) {
+      playStopSound();
+      Alert.alert("Time Limit", "Recording stopped automatically at 30 seconds.");
+    }
   }
 
   function clear() {
@@ -109,10 +134,10 @@ export default function RecordScreen() {
     }
 
     const durationInSeconds = time / 1000;
-    if (durationInSeconds < 7) {
+    if (durationInSeconds < 20) {
       Alert.alert(
         "Too Short",
-        "Recording must be at least 7 seconds long to report."
+        "Recording must be at least 20 seconds long to report."
       );
       return;
     }
@@ -261,7 +286,7 @@ export default function RecordScreen() {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              📱 Please hold your phone in your right hand during the activity.
+              Please hold your phone in your right hand during the activity.
               Record for at least 7 seconds. The timer will automatically stop
               at 10 seconds.
             </Text>

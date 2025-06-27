@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from "expo-sensors";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { Audio } from "expo-av";
 import {
   Alert,
   Modal,
@@ -53,6 +54,23 @@ export default function RecordScreen() {
     }
   }, []);
 
+  async function playStopSound() {
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+      playsInSilentModeIOS: true,
+    });
+    
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/bell-sound.mp3")
+      );
+      await sound.playAsync();
+    } catch (error) {
+      console.error("Error playing stop sound:", error);
+    }
+  }
+  
+
   function start() {
     if (!paused) return;
     paused = false;
@@ -68,13 +86,35 @@ export default function RecordScreen() {
 
     autoStopTimer = setTimeout(() => {
       if (!paused) {
-        stop();
-        Alert.alert(
-          "Time Limit",
-          "Recording automatically stopped after 10 seconds."
-        );
+        stop(true);
       }
-    }, 10000);
+    }, 30000);
+  }
+
+  function stop(autoStopped=false) {
+    if (autoStopTimer) {
+      clearTimeout(autoStopTimer);
+      autoStopTimer = null;
+    }
+
+    if (unsub) {
+      unsub.remove();
+      unsub = null;
+    }
+    const durationInSeconds = time / 1000;
+
+  if (!autoStopped && durationInSeconds < 20) {
+    Alert.alert("Too Short", "Minimum recording time is 20 seconds.");
+    return;
+  }
+    paused = true;
+    setIsRecording(false);
+    setRecordingDone(true);
+
+    if (autoStopped) {
+      playStopSound();
+      Alert.alert("Time Limit", "Recording stopped automatically at 30 seconds.");
+    }
   }
 
   function stop() {

@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from "expo-sensors";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { Audio } from "expo-av";
 import {
   Alert,
   Modal,
@@ -52,45 +53,68 @@ export default function RecordScreen() {
       unsub = null;
     }
   }, []);
-
-  function start() {
-    if (!paused) return;
-    paused = false;
-    setIsRecording(true);
-    Accelerometer.setUpdateInterval(interval);
-    unsub = Accelerometer.addListener((data) => {
-      setData(data);
-      data["time"] = time;
-      allData.push(data);
-      time += interval;
-      if (allData.length === 1) setHasData(true);
-    });
-
-    autoStopTimer = setTimeout(() => {
-      if (!paused) {
-        stop();
-        Alert.alert(
-          "Time Limit",
-          "Recording automatically stopped after 10 seconds."
+    async function playStopSound() {
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        playsInSilentModeIOS: true,
+      });
+      
+      try {
+        const { sound } = await Audio.Sound.createAsync(
+          require("../assets/bell-sound.mp3")
         );
+        await sound.playAsync();
+      } catch (error) {
+        console.error("Error playing stop sound:", error);
       }
-    }, 10000);
-  }
-
-  function stop() {
-    if (autoStopTimer) {
-      clearTimeout(autoStopTimer);
-      autoStopTimer = null;
     }
-
-    if (unsub) {
-      unsub.remove();
-      unsub = null;
+    
+  
+    function start() {
+      if (!paused) return;
+      paused = false;
+      setIsRecording(true);
+      Accelerometer.setUpdateInterval(interval);
+      unsub = Accelerometer.addListener((data) => {
+        setData(data);
+        data["time"] = time;
+        allData.push(data);
+        time += interval;
+        if (allData.length === 1) setHasData(true);
+      });
+  
+      autoStopTimer = setTimeout(() => {
+        if (!paused) {
+          stop(true);
+        }
+      }, 30000);
     }
-    paused = true;
-    setIsRecording(false);
-    setRecordingDone(true);
-  }
+  
+    function stop(autoStopped=false) {
+      if (autoStopTimer) {
+        clearTimeout(autoStopTimer);
+        autoStopTimer = null;
+      }
+  
+      if (unsub) {
+        unsub.remove();
+        unsub = null;
+      }
+      const durationInSeconds = time / 1000;
+  
+    if (!autoStopped && durationInSeconds < 20) {
+      Alert.alert("Too Short", "Minimum recording time is 20 seconds.");
+      return;
+    }
+      paused = true;
+      setIsRecording(false);
+      setRecordingDone(true);
+  
+      if (autoStopped) {
+        playStopSound();
+        Alert.alert("Time Limit", "Recording stopped automatically at 30 seconds.");
+      }
+    }
 
   function clear() {
     stop();
@@ -109,10 +133,10 @@ export default function RecordScreen() {
     }
 
     const durationInSeconds = time / 1000;
-    if (durationInSeconds < 7) {
+    if (durationInSeconds < 20) {
       Alert.alert(
         "Too Short",
-        "Recording must be at least 7 seconds long to report."
+        "Recording must be at least 20 seconds long to report."
       );
       return;
     }
