@@ -23,7 +23,7 @@ let unsub = null;
 let paused = true;
 let autoStopTimer = null;
 
-let skipReminderThisSession = false;
+let skipReminderThisSession = true;
 
 export default function RecordScreen() {
   const { subject, treatment, activity, phoneLocation } = useLocalSearchParams();
@@ -35,7 +35,7 @@ export default function RecordScreen() {
   const [hasData, setHasData] = useState(false);
   const [reportSent, setReportSent] = useState(false);
   const [showReminder, setShowReminder] = useState(false);
-  const [dontShowAgain, setDontShowAgain] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(true);
   const [recordingDone, setRecordingDone] = useState(false);
   const interval = 10;
 
@@ -193,10 +193,9 @@ if (autoStopped) {
       <View style={styles.instructionsBox}>
         <Text style={styles.instructionsTitle}>Instructions</Text>
         <Text style={styles.instructionsText}>
-          • Sit upright in a chair with both feet flat on the ground for at
+          • Sit naturally upright in a chair with both feet flat on the ground for at
           least 20 seconds.{"\n"}• Use a band to attach the phone securely to
-          your chosen location.{"\n"}• Remain as still as possible during the
-          recording period.
+          your chosen location.
         </Text>
       </View>
 
@@ -292,7 +291,7 @@ if (autoStopped) {
         </View>
       )}*/}
 
-      {/* Reminder Modal 
+      {/* Reminder Modal*/} 
       <Modal
         visible={showReminder}
         transparent
@@ -332,7 +331,6 @@ if (autoStopped) {
           </View>
         </View>
       </Modal>
-      */}
     </View>
   );
 }

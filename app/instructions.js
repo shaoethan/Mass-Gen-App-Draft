@@ -13,16 +13,16 @@ export default function Instructions() {
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>2. </Text>
-          Fill in the subject information: First and Last name, Before or After
-          treatment, Left Ankle or Right Wrist phone location, and select your activity.
+          Fill in the subject information: Your 5-digit ID, Before or After
+          Treatment, Left Ankle or Right Wrist phone location, and select your activity.
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>3. </Text>
-          Hold your phone in your right hand, then tap “Start Recording”.
+          Secure your phone at your chosen location, then tap “Start Recording”.
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>4. </Text>
-          Perform the selected activity for at least 20 seconds. The timer will automatically stop at 30 seconds in which you will hear a “ding!” sound.
+          Perform the selected activity for at least 20 seconds. The timer will automatically stop at 30 seconds at which point you will hear a “ding!” sound.
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>5. </Text>

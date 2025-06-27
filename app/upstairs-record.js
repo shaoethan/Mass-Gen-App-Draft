@@ -23,7 +23,7 @@ let unsub = null;
 let paused = true;
 let autoStopTimer = null;
 
-let skipReminderThisSession = false;
+let skipReminderThisSession = true;
 
 export default function RecordScreen() {
   const { subject, treatment, activity, phoneLocation } = useLocalSearchParams();
@@ -35,7 +35,7 @@ export default function RecordScreen() {
   const [hasData, setHasData] = useState(false);
   const [reportSent, setReportSent] = useState(false);
   const [showReminder, setShowReminder] = useState(false);
-  const [dontShowAgain, setDontShowAgain] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(true);
   const [recordingDone, setRecordingDone] = useState(false);
   const interval = 10;
 
@@ -277,7 +277,7 @@ if (autoStopped) {
         </View>
       )}*/}
 
-      {/* Reminder Modal 
+      {/* Reminder Modal*/}
       <Modal
         visible={showReminder}
         transparent
@@ -317,7 +317,6 @@ if (autoStopped) {
           </View>
         </View>
       </Modal>
-      */}
     </View>
   );
 }
