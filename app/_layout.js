@@ -5,7 +5,7 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerTitle: "ActiPain Tracker",
-        headerBackTitle: "Back", 
+        headerBackTitle: "Back",
       }}
     />
   );

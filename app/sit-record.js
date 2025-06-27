@@ -6,13 +6,12 @@ import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
   Alert,
-  Button,
   Modal,
   Pressable,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View
 } from "react-native";
 import eventBus from "../eventbus";
 import { db } from "../firebaseConfig";
@@ -36,7 +35,7 @@ export default function RecordScreen() {
   const [reportSent, setReportSent] = useState(false);
   const [showReminder, setShowReminder] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
-  const [recordingDone, setRecordingDone] = useState(false); 
+  const [recordingDone, setRecordingDone] = useState(false);
   const interval = 10;
 
   useEffect(() => {
@@ -66,11 +65,14 @@ export default function RecordScreen() {
       time += interval;
       if (allData.length === 1) setHasData(true);
     });
-    
+
     autoStopTimer = setTimeout(() => {
       if (!paused) {
         stop();
-        Alert.alert("Time Limit", "Recording automatically stopped after 10 seconds.");
+        Alert.alert(
+          "Time Limit",
+          "Recording automatically stopped after 10 seconds."
+        );
       }
     }, 10000);
   }
@@ -80,7 +82,7 @@ export default function RecordScreen() {
       clearTimeout(autoStopTimer);
       autoStopTimer = null;
     }
-    
+
     if (unsub) {
       unsub.remove();
       unsub = null;
@@ -108,12 +110,12 @@ export default function RecordScreen() {
 
     const durationInSeconds = time / 1000;
     if (durationInSeconds < 7) {
-    Alert.alert(
-      "Too Short",
-      "Recording must be at least 7 seconds long to report."
-    );
-    return;
-  }
+      Alert.alert(
+        "Too Short",
+        "Recording must be at least 7 seconds long to report."
+      );
+      return;
+    }
 
     const now = new Date();
     const docName = now.toString();
@@ -151,32 +153,38 @@ export default function RecordScreen() {
       <View style={styles.instructionsBox}>
         <Text style={styles.instructionsTitle}>Instructions</Text>
         <Text style={styles.instructionsText}>
-            • Sit upright in a chair with both feet flat on the ground for at least 20 seconds.{"\n"}
-            • Use a band to attach the phone securely to your chosen location.{"\n"}
-            • Remain as still as possible during the recording period.
+          • Sit upright in a chair with both feet flat on the ground for at
+          least 20 seconds.{"\n"}• Use a band to attach the phone securely to
+          your chosen location.{"\n"}• Remain as still as possible during the
+          recording period.
         </Text>
       </View>
 
       <View style={styles.vitalsBox}>
         <Text style={styles.vitalsText}>
-          <Text style={styles.label}>Subject: </Text>{subject}
+          <Text style={styles.label}>Subject: </Text>
+          {subject}
         </Text>
         <Text style={styles.vitalsText}>
-          <Text style={styles.label}>Treatment: </Text>{treatment}
+          <Text style={styles.label}>Treatment: </Text>
+          {treatment}
         </Text>
         <Text style={styles.vitalsText}>
-           <Text style={styles.label}>Activity: </Text>{activity}
+          <Text style={styles.label}>Activity: </Text>
+          {activity}
         </Text>
         <Text style={styles.vitalsText}>
-          <Text style={styles.label}>x:</Text> {x.toFixed(2)}{"   "}
-          <Text style={styles.label}>y:</Text> {y.toFixed(2)}{"   "}
+          <Text style={styles.label}>x:</Text> {x.toFixed(2)}
+          {"   "}
+          <Text style={styles.label}>y:</Text> {y.toFixed(2)}
+          {"   "}
           <Text style={styles.label}>z:</Text> {z.toFixed(2)}
         </Text>
         <Text style={styles.vitalsText}>
-          <Text style={styles.label}>Recording time: </Text>{(time / 1000).toFixed(1)}s
+          <Text style={styles.label}>Recording time: </Text>
+          {(time / 1000).toFixed(1)}s
         </Text>
       </View>
-
 
       <View style={styles.btnRow}>
         <TouchableOpacity
@@ -186,8 +194,8 @@ export default function RecordScreen() {
             styles.customButton,
             styles.primaryButton,
             (isRecording || recordingDone) && styles.disabledButton,
-        ]}
-      >
+          ]}
+        >
           <Text style={styles.buttonText}>Start Recording</Text>
         </TouchableOpacity>
 
@@ -198,42 +206,41 @@ export default function RecordScreen() {
             styles.customButton,
             styles.dangerButton,
             !isRecording && styles.disabledButton,
-        ]}
-      >
-        <Text style={styles.buttonText}>Stop Recording</Text>
-      </TouchableOpacity>
-    </View>
+          ]}
+        >
+          <Text style={styles.buttonText}>Stop Recording</Text>
+        </TouchableOpacity>
+      </View>
 
-    <View style={{ marginVertical: 10 }}>
-      <TouchableOpacity
-        onPress={clear}
-        disabled={!hasData}
-        style={[
-          styles.customButton,
-          styles.primaryButton,
-          !hasData && styles.disabledButton,
-        ]}
-      >
-        <Text style={styles.buttonText}>Clear Data</Text>
-      </TouchableOpacity>
-    </View>
-
-    {hasData && (
       <View style={{ marginVertical: 10 }}>
         <TouchableOpacity
-          onPress={reportData}
-          disabled={reportSent || isRecording}
+          onPress={clear}
+          disabled={!hasData}
           style={[
             styles.customButton,
-            styles.orangeButton,
-            (reportSent || isRecording) && styles.disabledButton,
-        ]}
-      >
-        <Text style={styles.buttonText}>Report to Firebase</Text>
-      </TouchableOpacity>
-  </View>
-)}
+            styles.primaryButton,
+            !hasData && styles.disabledButton,
+          ]}
+        >
+          <Text style={styles.buttonText}>Clear Data</Text>
+        </TouchableOpacity>
+      </View>
 
+      {hasData && (
+        <View style={{ marginVertical: 10 }}>
+          <TouchableOpacity
+            onPress={reportData}
+            disabled={reportSent || isRecording}
+            style={[
+              styles.customButton,
+              styles.orangeButton,
+              (reportSent || isRecording) && styles.disabledButton,
+            ]}
+          >
+            <Text style={styles.buttonText}>Report to Firebase</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/*{reportSent && (
         <View style={styles.btnRow}>
@@ -255,8 +262,9 @@ export default function RecordScreen() {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              📱 Please hold your phone in your right hand during the
-              activity. Record for at least 7 seconds. The timer will automatically stop at 10 seconds.
+              📱 Please hold your phone in your right hand during the activity.
+              Record for at least 7 seconds. The timer will automatically stop
+              at 10 seconds.
             </Text>
 
             <View style={styles.checkboxContainer}>
@@ -389,24 +397,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   customButton: {
-  paddingVertical: 12,
-  paddingHorizontal: 24,
-  borderRadius: 8,
-  marginVertical: 8,
-  alignItems: "center",
-  justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginVertical: 8,
+    alignItems: "center",
+    justifyContent: "center",
   },
   primaryButton: {
-    backgroundColor: "#2563eb", 
+    backgroundColor: "#2563eb",
   },
   dangerButton: {
-    backgroundColor: "#ef4444", 
+    backgroundColor: "#ef4444",
   },
   grayButton: {
-    backgroundColor: "#d1d5db", 
+    backgroundColor: "#d1d5db",
   },
   orangeButton: {
-    backgroundColor: "#f59e0b", 
+    backgroundColor: "#f59e0b",
   },
   buttonText: {
     color: "#fff",

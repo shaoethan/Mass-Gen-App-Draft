@@ -16,6 +16,8 @@ export default function SubjectScreen() {
   const [reportedActivities, setReportedActivities] = useState({});
   const router = useRouter();
 
+  const isSubjectValid = /^\d{5}$/.test(subject);
+
   const activities = [
     { label: "Walk", value: "walk" },
     { label: "Sit", value: "sit" },
@@ -41,20 +43,20 @@ export default function SubjectScreen() {
       sit: "/sit-record",
       upstair: "/upstairs-record",
       downstair: "/downstairs-record",
+    };
+
+    router.push({
+      pathname: activityRoutes[activity],
+      params: {
+        subject,
+        treatment,
+        activity,
+      },
+    });
   };
 
-  router.push({
-    pathname:activityRoutes[activity],
-    params: {
-      subject,
-      treatment,
-      activity, 
-    },
-  });
-};
-
   const renderOption = (label, value, selectedValue, setValue) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       onPress={() => setValue(value)}
       style={[
         styles.treatmentButton,
@@ -76,13 +78,15 @@ export default function SubjectScreen() {
     <View style={styles.container}>
       <Text style={styles.heading}>Subject Information</Text>
 
-      <Text style={styles.label}>Subject Name:</Text>
+      <Text style={styles.label}>Subject ID:</Text>
       <TextInput
-        placeholder="Enter 5 number ID (e.g. 12345)"
+        placeholder="Enter 5-digit ID (e.g. 12345)"
         placeholderTextColor="#555"
         style={styles.input}
+        keyboardType="number-pad"
+        maxLength={5}
         value={subject}
-        onChangeText={setSubject}
+        onChangeText={(text) => setSubject(text.replace(/[^0-9]/g, ""))}
       />
 
       <Text style={styles.label}>Select Treatment:</Text>
@@ -101,10 +105,10 @@ export default function SubjectScreen() {
           <TouchableOpacity
             style={[
               styles.recordButton,
-              !(subject && treatment) && styles.disabledButton,
+              !(isSubjectValid && treatment) && styles.disabledButton,
             ]}
             onPress={() => goToRecording(activity.value)}
-            disabled={!(subject && treatment)}
+            disabled={!(isSubjectValid && treatment)}
           >
             <Text style={styles.buttonText}>
               {reportedActivities[activity.value]
@@ -132,19 +136,17 @@ const styles = StyleSheet.create({
   },
   label: {
     marginTop: 20,
-    marginBottom: 10, 
+    marginBottom: 10,
     fontSize: 16,
     fontWeight: "500",
   },
   input: {
     borderWidth: 1,
     padding: 10,
-    marginTop: 8,
     marginBottom: 30,
     borderRadius: 5,
     borderColor: "#ccc",
-    color: "#000", 
-    marginTop: 0, 
+    color: "#000",
   },
   row: {
     flexDirection: "row",
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
   selectedTreatmentButton: {
     backgroundColor: "#4f46e5",
     borderColor: "#4f46e5",
-  }, 
+  },
   treatmentButtonText: {
     color: "#555",
     fontSize: 16,
@@ -219,5 +221,4 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "700",
   },
-
 });

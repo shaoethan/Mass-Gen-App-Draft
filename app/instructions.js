@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
-import LottieView from 'lottie-react-native';
+import LottieView from "lottie-react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 export default function Instructions() {
   return (
@@ -8,24 +8,27 @@ export default function Instructions() {
         <Text style={styles.heading}>How to Use ActiPain Tracker</Text>
 
         <Text style={styles.instruction}>
-            <Text style={styles.boldNumber}>1. </Text>
-            Press “Get Started” to begin data collection.
+          <Text style={styles.boldNumber}>1. </Text>
+          Press “Get Started” to begin data collection.
         </Text>
         <Text style={styles.instruction}>
-            <Text style={styles.boldNumber}>2. </Text>
-            Fill in the subject information: First and Last name, Before or After treatment, and select your activity.
+          <Text style={styles.boldNumber}>2. </Text>
+          Fill in the subject information: First and Last name, Before or After
+          treatment, and select your activity.
         </Text>
         <Text style={styles.instruction}>
-            <Text style={styles.boldNumber}>3. </Text>
-            Hold your phone in your right hand, then tap “Start Recording”.
+          <Text style={styles.boldNumber}>3. </Text>
+          Hold your phone in your right hand, then tap “Start Recording”.
         </Text>
         <Text style={styles.instruction}>
-            <Text style={styles.boldNumber}>4. </Text>
-            Perform the selected activity for at least 7 seconds. The timer will automatically stop at 10 seconds.
-        </Text> 
+          <Text style={styles.boldNumber}>4. </Text>
+          Perform the selected activity for at least 7 seconds. The timer will
+          automatically stop at 10 seconds.
+        </Text>
         <Text style={styles.instruction}>
-            <Text style={styles.boldNumber}>5. </Text>
-            After completing the recording, tap "Report to Firebase" to securely store your data.
+          <Text style={styles.boldNumber}>5. </Text>
+          After completing the recording, tap "Report to Firebase" to securely
+          store your data.
         </Text>
       </View>
       <LottieView
@@ -33,7 +36,7 @@ export default function Instructions() {
         autoPlay
         loop
         style={{ width: 250, height: 250, alignSelf: "center", marginTop: 8 }}
-    />
+      />
     </SafeAreaView>
   );
 }
@@ -63,5 +66,4 @@ const styles = StyleSheet.create({
   boldNumber: {
     fontWeight: "bold",
   },
-
 });

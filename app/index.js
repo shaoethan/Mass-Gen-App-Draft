@@ -1,5 +1,12 @@
 import { useRouter } from "expo-router";
-import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function Home() {
   const router = useRouter();
@@ -13,10 +20,14 @@ export default function Home() {
         />
         <Text style={styles.title}>ActiPain Tracker</Text>
         <Text style={styles.subtitle}>
-          This app helps patients record movement data before and after treatment using their phone's sensors.
+          This app helps patients record movement data before and after
+          treatment using their phone's sensors.
         </Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.getStartedButton} onPress={() => router.push("/subject")}>
+          <TouchableOpacity
+            style={styles.getStartedButton}
+            onPress={() => router.push("/subject")}
+          >
             <Text style={styles.getStartedButtonText}>Get Started</Text>
           </TouchableOpacity>
 
@@ -42,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     paddingTop: 100,
-    paddingHorizontal: 24, 
+    paddingHorizontal: 24,
   },
   title: {
     fontSize: 26,
@@ -65,7 +76,7 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: "contain",
     marginBottom: 30,
-    marginTop: 20, 
+    marginTop: 20,
     resizeMode: "contain",
     borderRadius: 20,
     overflow: "hidden",
@@ -94,7 +105,7 @@ const styles = StyleSheet.create({
   instructionsLink: {
     marginTop: 16,
     alignItems: "center",
-  }, 
+  },
   instructionsText: {
     color: "#4f46e5",
     fontSize: 16,
