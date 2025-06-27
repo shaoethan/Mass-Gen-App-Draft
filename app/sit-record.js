@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from "expo-sensors";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Audio } from "expo-av";
+import { Audio } from "expo-audio";
 import {
   Alert,
   Modal,
@@ -292,7 +292,7 @@ if (autoStopped) {
         </View>
       )}*/}
 
-      {/* Reminder Modal */}
+      {/* Reminder Modal 
       <Modal
         visible={showReminder}
         transparent
@@ -332,6 +332,7 @@ if (autoStopped) {
           </View>
         </View>
       </Modal>
+      */}
     </View>
   );
 }

@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from "expo-sensors";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Audio } from "expo-av";
+import { Audio } from "expo-audio";
 import {
   Alert,
   Modal,
@@ -26,7 +26,7 @@ let autoStopTimer = null;
 let skipReminderThisSession = false;
 
 export default function RecordScreen() {
-  const { subject, treatment, activity, phoneLocation } = useLocalSearchParams();
+  const { subject, treatment, activity } = useLocalSearchParams();
   const router = useRouter();
 
   useKeepAwake();
@@ -146,8 +146,8 @@ if (autoStopped) {
     const docName = now.toString();
 
     try {
-      const path = `${treatment}/${subject}/${activity}/${phoneLocation}/${docName}`;
-      const targetDoc = doc(db, treatment, subject, activity, phoneLocation, "recordings", docName);
+      const path = `${treatment}/${subject}/${activity}/${docName}`;
+      const targetDoc = doc(db, path);
       await setDoc(targetDoc, {
         activity,
         acceleration: allData,
@@ -178,9 +178,9 @@ if (autoStopped) {
       <View style={styles.instructionsBox}>
         <Text style={styles.instructionsTitle}>Instructions</Text>
         <Text style={styles.instructionsText}>
-          • Use a band to attach the phone securely to your chosen
-          location.
-          {"\n"}• Walk in a straight line at a normal & consistent pace for at least 20 seconds.
+          • Walk in a straight line at a normal pace for at least 20 seconds.
+          {"\n"}• Use a band to attach the phone securely to your chosen
+          location.{"\n"}• Keep the phone stable while walking.
         </Text>
       </View>
 
@@ -276,7 +276,7 @@ if (autoStopped) {
         </View>
       )}*/}
 
-      {/* Reminder Modal */}
+      {/* Reminder Modal 
       <Modal
         visible={showReminder}
         transparent
@@ -316,6 +316,7 @@ if (autoStopped) {
           </View>
         </View>
       </Modal>
+      */}
     </View>
   );
 }

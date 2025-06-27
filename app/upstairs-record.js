@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Accelerometer } from "expo-sensors";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Audio } from "expo-av";
+import { Audio } from "expo-audio";
 import {
   Alert,
   Modal,
@@ -134,10 +134,10 @@ if (autoStopped) {
     }
 
     const durationInSeconds = time / 1000;
-    if (durationInSeconds < 7) {
+    if (durationInSeconds < 20) {
       Alert.alert(
         "Too Short",
-        "Recording must be at least 7 seconds long to report."
+        "Recording must be at least 20 seconds long to report."
       );
       return;
     }
@@ -277,7 +277,7 @@ if (autoStopped) {
         </View>
       )}*/}
 
-      {/* Reminder Modal */}
+      {/* Reminder Modal 
       <Modal
         visible={showReminder}
         transparent
@@ -287,8 +287,8 @@ if (autoStopped) {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              📱 Please hold your phone in your right hand during the activity.
-              Record for at least 7 seconds. The timer will automatically stop
+              Please hold your phone in your right hand during the activity.
+              Record for at least 20 seconds. The timer will automatically stop
               at 10 seconds.
             </Text>
 
@@ -317,6 +317,7 @@ if (autoStopped) {
           </View>
         </View>
       </Modal>
+      */}
     </View>
   );
 }
