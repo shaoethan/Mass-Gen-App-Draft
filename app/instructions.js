@@ -1,10 +1,10 @@
 import LottieView from "lottie-react-native";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Instructions() {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.heading}>How to Use ActiPain Tracker</Text>
 
         <Text style={styles.instruction}>
@@ -29,13 +29,14 @@ export default function Instructions() {
           After completing the recording, tap "Report to Firebase" to securely
           store your data.
         </Text>
-      </View>
-      <LottieView
-        source={require("../assets/animations/walking.json")}
-        autoPlay
-        loop
-        style={{ width: 250, height: 250, alignSelf: "center", marginTop: 8 }}
-      />
+
+        <LottieView
+          source={require("../assets/animations/walking.json")}
+          autoPlay
+          loop
+          style={{ width: 250, height: 250, alignSelf: "center", marginTop: 8 }}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -46,9 +47,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   content: {
-    marginTop: 60,
+    paddingTop: 60,
     maxWidth: 360,
     alignSelf: "center",
+    paddingBottom: 40,
   },
   heading: {
     fontSize: 22,

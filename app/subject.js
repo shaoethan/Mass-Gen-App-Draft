@@ -23,8 +23,8 @@ export default function SubjectScreen() {
   const activities = [
     { label: "Walk", value: "walk" },
     { label: "Sit", value: "sit" },
-    { label: "Upstairs", value: "upstair" },
-    { label: "Downstairs", value: "downstair" },
+    { label: "Upstairs", value: "upstairs" },
+    { label: "Downstairs", value: "downstairs" },
   ];
 
   useEffect(() => {
@@ -40,15 +40,8 @@ export default function SubjectScreen() {
   }, []);
 
   const goToRecording = (activity) => {
-    const activityRoutes = {
-      walk: "/walk-record",
-      sit: "/sit-record",
-      upstair: "/upstairs-record",
-      downstair: "/downstairs-record",
-    };
-
     router.push({
-      pathname: activityRoutes[activity],
+      pathname: "/record",
       params: {
         subject,
         treatment,
@@ -78,60 +71,78 @@ export default function SubjectScreen() {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.heading}>Subject Information</Text>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.heading}>Subject Information</Text>
 
-      <Text style={styles.label}>Subject ID:</Text>
-      <TextInput
-        placeholder="Enter 5-digit ID (e.g. 12345)"
-        placeholderTextColor="#555"
-        style={styles.input}
-        keyboardType="number-pad"
-        maxLength={5}
-        value={subject}
-        onChangeText={(text) => setSubject(text.replace(/[^0-9]/g, ""))}
-      />
+        <Text style={styles.label}>Subject ID:</Text>
+        <TextInput
+          placeholder="Enter 5-digit ID (e.g. 12345)"
+          placeholderTextColor="#555"
+          style={styles.input}
+          keyboardType="number-pad"
+          maxLength={5}
+          value={subject}
+          onChangeText={(text) => setSubject(text.replace(/[^0-9]/g, ""))}
+        />
 
-      <Text style={styles.label}>Select Treatment:</Text>
-      <View style={styles.row}>
-        {renderOption("Before", "Before Treatment", treatment, setTreatment)}
-        {renderOption("After", "After Treatment", treatment, setTreatment)}
-      </View>
-
-      <Text style={styles.label}>Select Phone Location:</Text>
-      <View style={styles.row}>
-        {renderOption("Left Ankle", "Left Ankle", phoneLocation, setPhoneLocation)}
-        {renderOption("Right Wrist", "Right Wrist", phoneLocation, setPhoneLocation)}
-      </View>
-
-      <Text style={styles.label}>Select Activity:</Text>
-      {activities.map((activity) => (
-        <View key={activity.value} style={styles.activityRow}>
-          <View style={styles.checkboxContainer}>
-            <CheckBox value={!!reportedActivities[activity.value]} />
-            <Text style={styles.activityLabel}>{activity.label}</Text>
-          </View>
-          <TouchableOpacity
-            style={[
-              styles.recordButton,
-              !(isSubjectValid && treatment && phoneLocation) && styles.disabledButton,
-            ]}
-            onPress={() => goToRecording(activity.value)}
-            disabled={!(isSubjectValid && treatment && phoneLocation)}
-          >
-            <Text style={styles.buttonText}>
-              {reportedActivities[activity.value]
-                ? "Record Again"
-                : "Record Activity"}
-            </Text>
-          </TouchableOpacity>
+        <Text style={styles.label}>Select Treatment:</Text>
+        <View style={styles.row}>
+          {renderOption("Before", "Before Treatment", treatment, setTreatment)}
+          {renderOption("After", "After Treatment", treatment, setTreatment)}
         </View>
-      ))}
-    </ScrollView>
+
+        <Text style={styles.label}>Select Phone Location:</Text>
+        <View style={styles.row}>
+          {renderOption(
+            "Left Ankle",
+            "Left Ankle",
+            phoneLocation,
+            setPhoneLocation
+          )}
+          {renderOption(
+            "Right Wrist",
+            "Right Wrist",
+            phoneLocation,
+            setPhoneLocation
+          )}
+        </View>
+
+        <Text style={styles.label}>Select Activity:</Text>
+        {activities.map((activity) => (
+          <View key={activity.value} style={styles.activityRow}>
+            <View style={styles.checkboxContainer}>
+              <CheckBox value={!!reportedActivities[activity.value]} />
+              <Text style={styles.activityLabel}>{activity.label}</Text>
+            </View>
+            <TouchableOpacity
+              style={[
+                styles.recordButton,
+                !(isSubjectValid && treatment && phoneLocation) &&
+                  styles.disabledButton,
+              ]}
+              onPress={() => goToRecording(activity.value)}
+              disabled={!(isSubjectValid && treatment && phoneLocation)}
+            >
+              <Text style={styles.buttonText}>
+                {reportedActivities[activity.value]
+                  ? "Record Again"
+                  : "Record Activity"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContent: {
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+  },
   container: {
     paddingTop: 60,
     paddingHorizontal: 20,
