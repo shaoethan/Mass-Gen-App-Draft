@@ -178,23 +178,28 @@ export default function RecordScreen() {
     }
 
     try {
-      const timestampId = new Date().toString();
+      const timestampId = new Date().toISOString();
+
+      const safeTreatment = treatment.replace(/\s+/g, "");
+      const safeSubject = subject.replace(/\s+/g, "");
+      const safeActivity = activity.replace(/\s+/g, "");
+      const safePhoneLocation = phoneLocation.replace(/\s+/g, "");
 
       const dataCol = collection(db, "data");
-      const treatmentDoc = doc(dataCol, treatment);
+      const treatmentDoc = doc(dataCol, safeTreatment);
       await setDoc(
         treatmentDoc,
         { createdAt: serverTimestamp() },
         { merge: true }
       );
-      const subjectCol = collection(treatmentDoc, subject);
-      const activityDoc = doc(subjectCol, activity);
+      const subjectCol = collection(treatmentDoc, safeSubject);
+      const activityDoc = doc(subjectCol, safeActivity);
       await setDoc(
         activityDoc,
         { createdAt: serverTimestamp() },
         { merge: true }
       );
-      const phoneLocationCol = collection(activityDoc, phoneLocation);
+      const phoneLocationCol = collection(activityDoc, safePhoneLocation);
       const timestampDoc = doc(phoneLocationCol, timestampId);
 
       await setDoc(timestampDoc, {
