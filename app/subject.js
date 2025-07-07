@@ -95,14 +95,14 @@ export default function SubjectScreen() {
         <Text style={styles.label}>Select Phone Location:</Text>
         <View style={styles.row}>
           {renderOption(
-            "Left Ankle",
-            "Left Ankle",
+            "Nondominant Ankle",
+            "Nondominant Ankle",
             phoneLocation,
             setPhoneLocation
           )}
           {renderOption(
-            "Right Wrist",
-            "Right Wrist",
+            "Dominant Wrist",
+            "Dominant Wrist",
             phoneLocation,
             setPhoneLocation
           )}
