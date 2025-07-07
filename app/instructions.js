@@ -14,7 +14,7 @@ export default function Instructions() {
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>2. </Text>
           Fill in the subject information: Your 5-digit ID, Before or After
-          Treatment, Left Ankle or Right Wrist phone location, and select your activity.
+          Treatment, Non-dominant Ankle or Dominant Wrist phone location, and select your activity.
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>3. </Text>
