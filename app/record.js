@@ -1,7 +1,7 @@
 import CheckBox from "expo-checkbox";
 import { useKeepAwake } from "expo-keep-awake";
 import { useLocalSearchParams } from "expo-router";
-import { Accelerometer } from "expo-sensors";
+import { Accelerometer, Gyroscope } from "expo-sensors";
 import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Audio } from "expo-av";
@@ -21,9 +21,11 @@ import { db } from "../firebaseConfig";
 let time = 0;
 let allData = [];
 let unsub = null;
+let gyroUnsub = null;
 let paused = true;
 let autoStopTimer = null;
 let skipReminderThisSession = true;
+let latestGyroData = { x: 0, y: 0, z: 0 };
 
 const INSTRUCTIONS_MAP = {
   sit: {
@@ -65,6 +67,7 @@ export default function RecordScreen() {
   useKeepAwake();
 
   const [{ x, y, z }, setData] = useState({ x: 0, y: 0, z: 0 });
+  const [gyroData, setGyroData] = useState({ x: 0, y: 0, z: 0 });
   const [isRecording, setIsRecording] = useState(false);
   const [hasData, setHasData] = useState(false);
   const [reportSent, setReportSent] = useState(false);
@@ -113,11 +116,20 @@ export default function RecordScreen() {
     if (!paused) return;
     paused = false;
     setIsRecording(true);
+    Gyroscope.setUpdateInterval(interval);
+    gyroUnsub = Gyroscope.addListener((gData) => {
+      latestGyroData = gData;
+      setGyroData(gData);
+    });
     Accelerometer.setUpdateInterval(interval);
     unsub = Accelerometer.addListener((data) => {
       setData(data);
-      data["time"] = time;
-      allData.push(data);
+      const timestamp = Date.now();
+      allData.push({
+        timestamp,
+        accelerometer: { ...data },
+        gyroscope: { ...latestGyroData }
+      });
       time += interval;
       if (allData.length === 1) setHasData(true);
     });
@@ -138,6 +150,10 @@ export default function RecordScreen() {
     if (unsub) {
       unsub.remove();
       unsub = null;
+    }
+    if (gyroUnsub) {
+      gyroUnsub.remove();
+      gyroUnsub = null;
     }
     paused = true;
     setIsRecording(false);
