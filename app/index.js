@@ -39,6 +39,13 @@ export default function Home() {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* ✅ Bottom Privacy Link */}
+      <View style={styles.privacyContainer}>
+        <TouchableOpacity onPress={() => router.push("/privacy")}>
+          <Text style={styles.privacyText}>Privacy Policy</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -77,7 +84,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginBottom: 30,
     marginTop: 20,
-    resizeMode: "contain",
     borderRadius: 20,
     overflow: "hidden",
   },
@@ -109,6 +115,16 @@ const styles = StyleSheet.create({
   instructionsText: {
     color: "#4f46e5",
     fontSize: 16,
+    textDecorationLine: "underline",
+  },
+  privacyContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+  },
+  privacyText: {
+    color: "#4f46e5",
+    fontSize: 14,
     textDecorationLine: "underline",
   },
 });
