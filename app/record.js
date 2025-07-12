@@ -19,6 +19,7 @@ import eventBus from "../eventbus";
 import { db } from "../firebaseConfig";
 
 let time = 0;
+let startTime = null;
 let allData = [];
 let unsub = null;
 let gyroUnsub = null;
@@ -65,7 +66,6 @@ export default function RecordScreen() {
   const { subject, treatment, activity, phoneLocation } =
     useLocalSearchParams();
   useKeepAwake();
-
   const [{ x, y, z }, setData] = useState({ x: 0, y: 0, z: 0 });
   const [gyroData, setGyroData] = useState({ x: 0, y: 0, z: 0 });
   const [isRecording, setIsRecording] = useState(false);
@@ -116,6 +116,7 @@ export default function RecordScreen() {
     if (!paused) return;
     paused = false;
     setIsRecording(true);
+    startTime = Date.now();
     Gyroscope.setUpdateInterval(interval);
     gyroUnsub = Gyroscope.addListener((gData) => {
       latestGyroData = gData;
@@ -124,13 +125,26 @@ export default function RecordScreen() {
     Accelerometer.setUpdateInterval(interval);
     unsub = Accelerometer.addListener((data) => {
       setData(data);
-      const timestamp = Date.now();
-      allData.push({
-        timestamp,
-        accelerometer: { ...data },
-        gyroscope: { ...latestGyroData }
-      });
-      time += interval;
+const now = Date.now();
+const elapsed = now - startTime;
+
+allData.push({
+  timestamp: elapsed,  // ✅ timestamp now starts at 0
+  elapsed,             // ✅ optional but consistent
+  accelerometer: {
+    x: data.x,
+    y: data.y,
+    z: data.z
+  },
+  gyroscope: {
+    x: latestGyroData.x,
+    y: latestGyroData.y,
+    z: latestGyroData.z
+  }
+});
+
+
+
       if (allData.length === 1) setHasData(true);
     });
 
@@ -184,8 +198,10 @@ export default function RecordScreen() {
       return;
     }
 
-    const durationInSeconds = time / 1000;
-    if (durationInSeconds < 20) {
+    const durationInSeconds = allData.length > 0
+    ? allData[allData.length - 1].elapsed / 1000
+    : 0;
+      if (durationInSeconds < 20) {
       Alert.alert(
         "Too Short",
         "Recording must be at least 20 seconds long to report."
@@ -280,7 +296,7 @@ export default function RecordScreen() {
           </Text>
           <Text style={styles.vitalsText}>
             <Text style={styles.label}>Recording time: </Text>
-            {(time / 1000).toFixed(1)}s
+            {(allData.length > 0 ? (allData[allData.length - 1].elapsed / 1000).toFixed(1) : '0.0')}s
           </Text>
         </View>
 
