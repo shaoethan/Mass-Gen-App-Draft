@@ -143,17 +143,13 @@ allData.push({
   }
 });
 
+    if (allData.length === 1) setHasData(true);
 
-
-      if (allData.length === 1) setHasData(true);
-    });
-
-    autoStopTimer = setTimeout(() => {
-      if (!paused) {
-        stop(true);
-      }
-    }, 30000);
-  }
+    if (elapsed >= 30000 && !paused) {
+      stop(true);
+    }
+  });
+}
 
   function stop(autoStopped = false) {
     if (autoStopTimer) {
