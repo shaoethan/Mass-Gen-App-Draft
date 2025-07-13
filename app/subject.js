@@ -34,7 +34,6 @@ export default function SubjectScreen() {
         [reportedActivity]: true,
       }));
     };
-
     eventBus.on("activityReported", listener);
     return () => eventBus.off("activityReported", listener);
   }, []);
@@ -51,194 +50,129 @@ export default function SubjectScreen() {
     });
   };
 
-  const renderOption = (label, value, selectedValue, setValue) => (
+  const OptionButton = ({ label, value, selected, onSelect }) => (
     <TouchableOpacity
-      onPress={() => setValue(value)}
-      style={[
-        styles.treatmentButton,
-        selectedValue === value && styles.selectedTreatmentButton,
-      ]}
+      onPress={() => onSelect(value)}
+      style={[styles.optionButton, selected === value && styles.optionButtonSelected]}
     >
-      <Text
-        style={[
-          styles.treatmentButtonText,
-          selectedValue === value && styles.selectedTreatmentButtonText,
-        ]}
-      >
+      <Text style={[styles.optionText, selected === value && styles.optionTextSelected]}>
         {label}
       </Text>
     </TouchableOpacity>
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.heading}>Subject Information</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Setup</Text>
 
-        <Text style={styles.label}>Subject ID:</Text>
-        <TextInput
-          placeholder="Enter 5-digit ID (e.g. 12345)"
-          placeholderTextColor="#555"
-          style={styles.input}
-          keyboardType="number-pad"
-          maxLength={5}
-          value={subject}
-          onChangeText={(text) => setSubject(text.replace(/[^0-9]/g, ""))}
-        />
+      <Text style={styles.label}>Subject ID (5 digits)</Text>
+      <TextInput
+        style={styles.input}
+        keyboardType="number-pad"
+        placeholder="e.g. 12345"
+        maxLength={5}
+        value={subject}
+        onChangeText={(text) => setSubject(text.replace(/[^0-9]/g, ""))}
+      />
 
-        <Text style={styles.label}>Select Treatment:</Text>
-        <View style={styles.row}>
-          {renderOption("Before", "Before Treatment", treatment, setTreatment)}
-          {renderOption("After", "After Treatment", treatment, setTreatment)}
-        </View>
+      <Text style={styles.label}>Treatment</Text>
+      <View style={styles.row}>
+        <OptionButton label="Before" value="Before Treatment" selected={treatment} onSelect={setTreatment} />
+        <OptionButton label="After" value="After Treatment" selected={treatment} onSelect={setTreatment} />
+      </View>
 
-        <Text style={styles.label}>Select Phone Location:</Text>
-        <View style={styles.row}>
-          {renderOption(
-            "Nondominant Ankle",
-            "Nondominant Ankle",
-            phoneLocation,
-            setPhoneLocation
-          )}
-          {renderOption(
-            "Dominant Wrist",
-            "Dominant Wrist",
-            phoneLocation,
-            setPhoneLocation
-          )}
-        </View>
+      <Text style={styles.label}>Phone Placement</Text>
+      <View style={styles.row}>
+        <OptionButton label="Dominant Hand" value="Dominant Hand" selected={phoneLocation} onSelect={setPhoneLocation} />
+        <OptionButton label="Opposite Pant Pocket" value="Opposite Pant Pocket" selected={phoneLocation} onSelect={setPhoneLocation} />
+      </View>
 
-        <Text style={styles.label}>Select Activity:</Text>
-        {activities.map((activity) => (
-          <View key={activity.value} style={styles.activityRow}>
-            <View style={styles.checkboxContainer}>
-              <CheckBox value={!!reportedActivities[activity.value]} />
-              <Text style={styles.activityLabel}>{activity.label}</Text>
-            </View>
-            <TouchableOpacity
-              style={[
-                styles.recordButton,
-                !(isSubjectValid && treatment && phoneLocation) &&
-                  styles.disabledButton,
-              ]}
-              onPress={() => goToRecording(activity.value)}
-              disabled={!(isSubjectValid && treatment && phoneLocation)}
-            >
-              <Text style={styles.buttonText}>
-                {reportedActivities[activity.value]
-                  ? "Record Again"
-                  : "Record Activity"}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
+      <Text style={styles.label}>Select an Activity to Record</Text>
+      {activities.map((activity) => (
+        <TouchableOpacity
+          key={activity.value}
+          style={[
+            styles.activityButton,
+            !(isSubjectValid && treatment && phoneLocation) && styles.disabled,
+          ]}
+          disabled={!(isSubjectValid && treatment && phoneLocation)}
+          onPress={() => goToRecording(activity.value)}
+        >
+          <Text style={styles.activityButtonText}>
+            {reportedActivities[activity.value] ? "✔ " : ""}
+            {activity.label}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContent: {
-    paddingTop: 60,
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-  },
   container: {
     paddingTop: 60,
-    paddingHorizontal: 20,
-    flex: 1,
+    paddingHorizontal: 24,
+    paddingBottom: 40,
     backgroundColor: "#fff",
   },
-  heading: {
-    fontSize: 22,
+  title: {
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 30,
+    marginBottom: 20,
   },
   label: {
+    fontSize: 16,
+    fontWeight: "600",
     marginTop: 20,
     marginBottom: 10,
-    fontSize: 16,
-    fontWeight: "500",
   },
   input: {
     borderWidth: 1,
-    padding: 10,
-    marginBottom: 30,
-    borderRadius: 5,
     borderColor: "#ccc",
-    color: "#000",
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
   },
   row: {
     flexDirection: "row",
-    gap: 100,
-    marginTop: 10,
-    justifyContent: "center",
+    justifyContent: "space-between",
     marginBottom: 10,
   },
-  option: {
-    padding: 10,
-  },
-  optionText: {
-    color: "gray",
-    fontSize: 16,
-  },
-  selectedText: {
-    color: "blue",
-    fontWeight: "bold",
-  },
-  activityRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginVertical: 12,
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderWidth: 1,
-    borderColor: "#999",
-    marginRight: 10,
-  },
-  activityLabel: {
-    fontSize: 16,
-    marginLeft: 10,
-  },
-  recordButton: {
-    backgroundColor: "blue",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 5,
-  },
-  disabledButton: {
-    backgroundColor: "gray",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  treatmentButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "#ccc",
+  optionButton: {
+    flex: 1,
+    marginHorizontal: 5,
+    paddingVertical: 12,
     backgroundColor: "#f2f2f2",
+    borderRadius: 8,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    alignItems: "center",
   },
-  selectedTreatmentButton: {
+  optionButtonSelected: {
     backgroundColor: "#4f46e5",
     borderColor: "#4f46e5",
   },
-  treatmentButtonText: {
+  optionText: {
     color: "#555",
     fontSize: 16,
-    fontWeight: "500",
   },
-  selectedTreatmentButtonText: {
+  optionTextSelected: {
     color: "#fff",
     fontWeight: "700",
+  },
+  activityButton: {
+    marginTop: 10,
+    backgroundColor: "#4f46e5",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  activityButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  disabled: {
+    backgroundColor: "#999",
   },
 });

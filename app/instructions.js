@@ -13,8 +13,7 @@ export default function Instructions() {
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>2. </Text>
-          Fill in the subject information: Your 5-digit ID, Before or After
-          Treatment, Non-dominant Ankle or Dominant Wrist phone location, and select your activity.
+          Fill in the subject information including: User Id, phone location, and the activity.
         </Text>
         <Text style={styles.instruction}>
           <Text style={styles.boldNumber}>3. </Text>
