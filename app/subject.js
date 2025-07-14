@@ -84,7 +84,7 @@ export default function SubjectScreen() {
       <Text style={styles.label}>Phone Placement</Text>
       <View style={styles.row}>
         <OptionButton label="Dominant Hand" value="Dominant Hand" selected={phoneLocation} onSelect={setPhoneLocation} />
-        <OptionButton label="Opposite Pant Pocket" value="Opposite Pant Pocket" selected={phoneLocation} onSelect={setPhoneLocation} />
+        <OptionButton label="Same Pant Pocket" value="Same Pant Pocket" selected={phoneLocation} onSelect={setPhoneLocation} />
       </View>
 
       <Text style={styles.label}>Select an Activity to Record</Text>

@@ -22,12 +22,12 @@ export default function PrivacyPolicyScreen() {
 
       <Text style={styles.subheading}>Third-Party Access</Text>
       <Text style={styles.paragraph}>
-        Only anonymized, aggregated data may be shared with collaborators. We do not sell or share user data for tracking or advertising.
+        Only anonymized, aggregated data may be shared with research collaborators. We do not sell or share user data for tracking or advertising.
       </Text>
 
       <Text style={styles.subheading}>Opt-Out & Data Retention</Text>
       <Text style={styles.paragraph}>
-        To delete your data, contact us at ethanshaozz@gmail.com with your user ID. We will delete your records within 30 days.
+        To delete your data, contact us at actipaintracker@gmail.com with your user ID. We will delete your records within 30 days.
       </Text>
 
       <Text style={styles.subheading}>Children</Text>
@@ -52,7 +52,7 @@ export default function PrivacyPolicyScreen() {
 
       <Text style={styles.subheading}>Contact Us</Text>
       <Text style={styles.paragraph}>
-        Questions? Email ethanshaozz@gmail.com
+        Questions? Email actipaintracker@gmail.com
       </Text>
 
       <Text style={styles.footer}>Effective: July 10, 2025</Text>
