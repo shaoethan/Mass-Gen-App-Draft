@@ -15,7 +15,7 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Image
-          source={require("../assets/images/redlogo.jpg")}
+          source={require("../assets/images/redlogo.png")}
           style={styles.logo}
         />
         <Text style={styles.title}>ActiPain Tracker</Text>

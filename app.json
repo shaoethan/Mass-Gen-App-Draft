@@ -4,16 +4,14 @@
     "name": "ActiPain Tracker",
     "slug": "actipain-tracker",
     "version": "1.0.0",
-    "sdkVersion": "50.0.0",
     "platforms": [
       "ios",
       "android"
     ],
     "orientation": "portrait",
-    "icon": "./assets/images/redlogo.jpg",
+    "icon": "./assets/images/redlogo.png",
     "scheme": "mghapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ninjaprime.MGHapp",
@@ -26,7 +24,6 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.ninjaprime.MGHapp",
       "permissions": [
         "android.permission.RECORD_AUDIO",
@@ -53,10 +50,11 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "15.0"
+            "deploymentTarget": "15.1"
           }
         }
-    ],
+      ],
+      
       "expo-audio",
       "expo-asset"
     ],
@@ -68,7 +66,6 @@
       "enabled": true,
       "fallbackToCacheTimeout": 0
     },
-    "expo-channel-name": "production",
     "extra": {
       "router": {},
       "eas": {
