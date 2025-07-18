@@ -13,13 +13,11 @@
     },
     "production": {
       "developmentClient": false,
-      "distribution": "store",
-      "autoIncrement": true,
       "ios": {
-        "distribution": "store", 
-        "simulator": false
+        "distribution": "store"
       }
     }
+
   },
   "submit": {
     "production": {}

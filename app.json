@@ -50,8 +50,10 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "15.1"
-          }
+          "useFrameworks": "static",
+          "modular_headers": true,
+          "deploymentTarget": "15.1"
+        }
         }
       ],
       
