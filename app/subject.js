@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     color: "#555",
-    fontSize: 16,
+    fontSize: 14,
   },
   optionTextSelected: {
     color: "#fff",

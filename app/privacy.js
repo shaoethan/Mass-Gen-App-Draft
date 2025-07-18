@@ -7,7 +7,7 @@ export default function PrivacyPolicyScreen() {
       <Text style={styles.heading}>Privacy Policy</Text>
 
       <Text style={styles.paragraph}>
-        This privacy policy applies to the Actipain Tracker app (“Application”), created by Massachusetts General Hospital (“Service Provider”) as a free service. It is provided “AS IS”.
+        This privacy policy applies to the Actipain Tracker app (“Application”), created by Youth STEAM Initiative (“Service Provider”) as a free service. It is provided “AS IS”.
       </Text>
 
       <Text style={styles.subheading}>Information Collection and Use</Text>
