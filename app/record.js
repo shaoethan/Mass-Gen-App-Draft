@@ -44,23 +44,16 @@ const INSTRUCTIONS_MAP = {
       "• Keep the phone stable while walking.",
     ],
   },
-  upstairs: {
-    title: "Upstairs Recording Screen",
+  stairs: {
+    title: "Stairs Recording Screen",
     lines: [
-      "• Walk upstairs at a natural pace without pausing for at least 20 seconds.",
+      "• Walk up and/or down stairs at a natural pace for at least 20 seconds.",
       "• Use a band to attach the phone securely to your chosen location.",
-      "• Try to maintain a consistent rhythm throughout the climb.",
-    ],
-  },
-  downstairs: {
-    title: "Downstairs Recording Screen",
-    lines: [
-      "• Walk downstairs at a natural, controlled pace without rushing for at least 20 seconds.",
-      "• Use a band to attach the phone securely to your chosen location.",
-      "• Keep your movements steady and avoid abrupt steps.",
+      "• Maintain a consistent rhythm if possible.",
     ],
   },
 };
+
 
 export default function RecordScreen() {
   const { subject, treatment, activity, phoneLocation } =
@@ -74,6 +67,7 @@ export default function RecordScreen() {
   const [showReminder, setShowReminder] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(true);
   const [recordingDone, setRecordingDone] = useState(false);
+  
 
   const currentInstructions =
     INSTRUCTIONS_MAP[activity] || INSTRUCTIONS_MAP["sit"];

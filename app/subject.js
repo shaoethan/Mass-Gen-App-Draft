@@ -23,9 +23,9 @@ export default function SubjectScreen() {
   const activities = [
     { label: "Walk", value: "walk" },
     { label: "Sit", value: "sit" },
-    { label: "Upstairs", value: "upstairs" },
-    { label: "Downstairs", value: "downstairs" },
+    { label: "Stairs", value: "stairs" }, // merged label + value
   ];
+  
 
   useEffect(() => {
     const listener = (reportedActivity) => {
