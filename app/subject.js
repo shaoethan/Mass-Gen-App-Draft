@@ -88,6 +88,7 @@ export default function SubjectScreen() {
       </View>
 
       <Text style={styles.label}>Select an Activity to Record</Text>
+      <View style={styles.activityButtonContainer}>
       {activities.map((activity) => (
         <TouchableOpacity
           key={activity.value}
@@ -104,6 +105,7 @@ export default function SubjectScreen() {
           </Text>
         </TouchableOpacity>
       ))}
+    </View>
     </ScrollView>
   );
 }
@@ -175,4 +177,12 @@ const styles = StyleSheet.create({
   disabled: {
     backgroundColor: "#999",
   },
+  activityButtonContainer: {
+    flexGrow: 1,
+    justifyContent: "space-evenly",
+    marginTop: 20,
+    marginBottom: 60, // padding to push bottom buttons up comfortably
+    gap: 10, // spacing between buttons
+  },
+  
 });
