@@ -1,8 +1,14 @@
 {
   "expo": {
+    "runtimeVersion": "1.0.0",
     "name": "ActiPain Tracker",
     "slug": "actipain-tracker",
     "version": "1.0.0",
+    "sdkVersion": "50.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "icon": "./assets/images/redlogo.jpg",
     "scheme": "mghapp",
@@ -21,7 +27,11 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.ninjaprime.MGHapp"
+      "package": "com.ninjaprime.MGHapp",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -39,22 +49,32 @@
           "backgroundColor": "#ffffff"
         }
       ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "15.0"
+          }
+        }
+    ],
       "expo-audio",
       "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true
     },
+    "updates": {
+      "url": "https://u.expo.dev/fa8ae35f-7205-4355-8699-5ed4dc46c15e",
+      "enabled": true,
+      "fallbackToCacheTimeout": 0
+    },
+    "expo-channel-name": "production",
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "fa8ae35f-7205-4355-8699-5ed4dc46c15e"
+        "projectId": "17f5cc34-321f-443b-ab63-262f168bb4c0"
       }
     },
-    "owner": "ninjaprime",
-    "runtimeVersion": "1.0.0",
-    "updates": {
-      "url": "https://u.expo.dev/fa8ae35f-7205-4355-8699-5ed4dc46c15e"
-    }
+    "owner": "ethanshao"
   }
 }
