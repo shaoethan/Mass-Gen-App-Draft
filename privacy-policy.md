@@ -3,7 +3,7 @@
 **Effective Date:** July 10, 2025  
 **App Name:** Actipain Tracker  
 **Provider:** Massachusetts General Hospital  
-**Contact:** ethanshaozz@gmail.com
+**Contact:** actipaintracker@gmail.com
 
 ---
 
@@ -82,4 +82,4 @@ This privacy policy may be updated occasionally. You are encouraged to review th
 ## Contact Us
 
 If you have questions or concerns about this policy, contact:  
-📧 **ethanshaozz@gmail.com**
+📧 **actipaintracker@gmail.com**
