@@ -15,9 +15,11 @@
       "developmentClient": false,
       "autoIncrement": false,
       "ios": {
-        "distribution": "store"
-      }
-    }
+        "distribution": "store",
+        "buildNumber": "101"
+  }
+}
+
 
   },
   "submit": {
