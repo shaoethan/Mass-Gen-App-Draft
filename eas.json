@@ -13,13 +13,11 @@
     },
     "production": {
       "developmentClient": false,
-      "autoIncrement": false,
+      "autoIncrement": true,
       "ios": {
-        "distribution": "store",
-        "buildNumber": "101"
-  }
-}
-
+        "distribution": "store"
+      }
+    }
 
   },
   "submit": {
