@@ -346,6 +346,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ActiPainTracker/ActiPainTracker.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9PK2URYHZ8;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -385,6 +386,7 @@
 				CODE_SIGN_ENTITLEMENTS = ActiPainTracker/ActiPainTracker.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
 				"CURRENT_PROJECT_VERSION[sdk=*]" = 1;
+				DEVELOPMENT_TEAM = 9PK2URYHZ8;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = ActiPainTracker/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
