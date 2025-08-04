@@ -2302,7 +2302,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - BEMCheckBox
     - libavif
     - libdav1d
@@ -2643,6 +2643,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: bfcce202dba74007f8974ee9c5f903a9a286c445
 
-PODFILE CHECKSUM: d99bf8f3779a8a703e1dd00db304198440f4aa17
+PODFILE CHECKSUM: 5e6646cd068ea5267d9fa6389b9a99b7edbbedf5
 
 COCOAPODS: 1.16.2
