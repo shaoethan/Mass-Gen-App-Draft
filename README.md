@@ -1,4 +1,4 @@
-# Accelerometer Activity Recorder
+# Accelerometer & Gyroscope Activity Recorder
 
 This is a React Native app built with Expo that records accelerometer data for different physical activities. Users enter a subject name, choose a treatment condition (before or after), and record data for activities like walking, sitting, going upstairs, or downstairs.
 
